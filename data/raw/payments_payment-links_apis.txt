@@ -1,0 +1,34 @@
+Payment Links APIs
+Create, update, cancel and fetch Payment Links and resend notifications using Payment Links APIs.
+Payment Links help you to receive payments from customers by sending them links via email and SMS. Use our APIs to create Payment Links. You can enter details such as amount, link expiry time, and more and send the link to the customer via email or SMS. The customer can select their desired payment method and complete the payment. Once the customer makes the payment, you will receive the amount in your bank account according to your settlement cycle.
+There are two types of Payment Links:
+-
+Standard Payment Links: Customers can make payments through netbanking, cards, wallets, UPI and bank transfer payment methods using Standard Payment Links.
+-
+UPI Payment Links: Customers can select the UPI app of your choice to make payments using UPI Payment Links.
+You can create, update, cancel, fetch, and resend payment links using APIs. Check the
+for endpoints, sample codes and parameter descriptions.Upon successful payment, customers can be directed to a designated URL through the callback_url
+and callback_method
+parameters. For example, you can redirect customers to https://example-callback-url.com/
+.
+The query parameters are added to the URL as shown:
+https://example-callback-url.com/?razorpay_payment_id=pay_Fc8mUeDrEKf08Y&razorpay_payment_link_id=plink_Fc8lXILABzQL7M&razorpay_payment_link_reference_id=TSsd1989&razorpay_payment_link_status=partially_paid&razorpay_signature=b0ea302006
+You can verify the razorpay_signature
+parameter to validate that it is authentic and sent from Razorpay servers.
+The razorpay_payment_link_id
+attribute should be stored in your system against an order, right after it is returned in the create
+id
+(for example, "id": "plink_FKeEiabyAAiSVQ"
+) in the response.
+- The
+razorpay_signature
+should be validated by your server. In order to verify the signature, you need to create a signature usingrazorpay_payment_link_id
+razorpay_payment_link_reference_id
+razorpay_payment_link_status
+razorpay_payment_id
+as payload and yourkey_secret
+(your API secret) as secret.
+RazorpayClient razorpay = new RazorpayClient("[YOUR_KEY_ID]", "[YOUR_KEY_SECRET]");String secret = "EnLs21M47BllR3X8PSFtjtbd";JSONObject options = new JSONObject();options.put("payment_link_reference_id", "TSsd1989");options.put("razorpay_payment_id", "pay_IH3d0ara9bSsjQ");options.put("payment_link_status", "paid");options.put("payment_link_id", "plink_IH3cNucfVEgV68");options.put("razorpay_signature", "07ae18789e35093e51d0a491eb9922646f3f82773547e5b0f67ee3f2d3bf7d5b");boolean status = Utils.verifyPaymentLink(options, secret);
+After validating the signature, you should fetch the order in your system corresponding to the razorpay_payment_link_id
+and mark this order as successful.
+Was this page helpful?

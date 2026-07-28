@@ -1,0 +1,16 @@
+Route Webhook Events
+List of Route webhook events along with sample payloads.
+Route enables businesses to split payments among third parties, sellers, or bank accounts while managing settlements, refunds, and vendor payments in a one-to-many model.
+The table below lists the webhook events available for Route.
+Given below are the sample payloads for Route webhook events.
+Handy Tips
+- The
+settlement.processed
+webhook is triggered when a transfer to a Linked Account settles with the parent merchant.
+Given below are the sample payloads for Settlement webhook events.
+Watch Out!
+-
+If you have changed your webhook secret, remember to use the old secret for webhook signature validation while retrying older requests. Using the new secret will lead to a signature mismatch.
+-
+While generating a signature at your end, ensure that the webhook body is passed as an argument in the raw webhook request body. Do not parse or cast the webhook request body.
+Was this page helpful?

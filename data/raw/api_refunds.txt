@@ -1,0 +1,9 @@
+API Test Keys
+Refunds APIs
+Make full or partial refunds to customers. You can initiate refunds only on those payments that are in captured
+state. A payment in authorized
+state is auto-refunded if not captured
+within 3 days of creation. You can create and manage refunds using APIs or from the
+Fork the Razorpay Postman Public Workspace and try the Refunds APIs using your
+.Endpoints
+09

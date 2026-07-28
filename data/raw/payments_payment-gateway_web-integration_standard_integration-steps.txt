@@ -1,0 +1,459 @@
+Integration Steps
+Steps to integrate the Standard Checkout form on your website.
+Follow these steps to integrate the Standard Checkout form on your website:
+Follow the steps given below:
+Given below are the order states and the corresponding payment states:
+Capture Payments Automatically
+You can capture payments automatically with the one-time
+on the Dashboard.Order is an important step in the payment process.
+- An order should be created for every payment.
+- You can create an order using the . It is a server-side API call. Know how to Orders API.
+- The
+order_id
+received in the response should be passed to the checkout. This ties the order with the payment and secures the request from being tampered.
+Watch Out!
+Payments made without an order_id
+cannot be captured and will be automatically refunded. You must create an order before initiating payments to ensure proper payment processing.
+You can create an order using:
+Use this endpoint to create an order using the Orders API.
+curl -X POST https://api.razorpay.com/v1/orders-U [YOUR_KEY_ID]:[YOUR_KEY_SECRET]-H 'content-type:application/json'-d '{"amount": 50000,"currency": "","receipt": "qwsaq1","partial_payment": true,"first_payment_min_amount": 230}'
+{"id": "order_IluGWxBm9U8zJ8","entity": "order","amount": 50000,"amount_paid": 0,"amount_due": 50000,"currency": "","receipt": "rcptid_11","offer_id": null,"status": "created","attempts": 0,"notes": [],"created_at": 1642662092}
+amount
+mandatory
+integer
+The transaction amount, expressed in the currency subunit. For example, for an actual amount of ₹222.25, the value of this field should be 22225
+.
+currency
+mandatory
+string
+The currency in which the transaction should be made. See the
+receipt
+optional
+string
+Your receipt id for this order should be passed here. Maximum length is 40 characters.
+notes
+optional
+json object
+Key-value pair that can be used to store additional information about the entity. Maximum 15 key-value pairs, 256 characters (maximum) each. For example, "note_key": "Beam me up Scotty”
+.
+partial_payment
+optional
+boolean
+Indicates whether the customer can make a partial payment. Possible values:
+true
+: The customer can make partial payments.false
+(default): The customer cannot make partial payments.
+first_payment_min_amount
+optional
+integer
+Minimum amount that must be paid by the customer as the first partial payment. For example, if an amount of ₹7,000 is to be received from the customer in two installments of #1 - ₹5,000, #2 - ₹2,000, then you can set this value as 500000
+. This parameter should be passed only if partial_payment
+is true
+.
+Descriptions for the response parameters are present in the
+parameters table.The error response parameters are available in the
+.Add the Pay button on your web page using the checkout code. You can use the handler function or callback URL.
+Heads up: callback_url and your webhook URL are different
+The callback_url Checkout option is only for WebView and redirect flows. For standard web integrations, use the handler function to handle payment completion on the client side, and webhooks for server-side confirmation. See
+for details.If you use callback_url in a standard web integration, it bypasses the handler function and the payment status will not be confirmed on the client side immediately after payment.
+Copy-paste the parameters as options
+in your code:
+<button id="rzp-button1">Pay</button><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script>var options = {"key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard"amount": "50000", // Amount is in currency subunits."currency": "","name": "Acme Corp", //your business name"description": "Test Transaction","image": "https://example.com/your_logo","order_id": "order_9A33XWu170gUtm", // This is a sample Order ID. Pass the `id` obtained in the response of Step 1"callback_url": "https://eneqd3r9zrjok.x.pipedream.net/","prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number"name": "Gaurav Kumar", //your customer's name"email": "gaurav.kumar@example.com","contact": "+919876543210" //Provide the customer's phone number for better conversion rates},"notes": {"address": "Razorpay Corporate Office"},"theme": {"color": "#3399cc"}};var rzp1 = new Razorpay(options);document.getElementById('rzp-button1').onclick = function(e){rzp1.open();e.preventDefault();}</script>
+Handy Tips
+Test your integration using these
+.key
+mandatory
+string
+API Key ID generated from the Dashboard.
+amount
+mandatory
+integer
+Payment amount in the smallest currency subunit. For example, if the amount to be charged is ₹2,222.50, enter 222250
+in this field. In the case of three decimal currencies, such as KWD, BHD and OMR, to accept a payment of 295.991, pass the value as 295990. And in the case of zero decimal currencies such as JPY, to accept a payment of 295, pass the value as 295.
+Watch Out!
+As per payment guidelines, you should pass the last decimal number as 0 for three decimal currency payments. For example, if you want to charge a customer 99.991 KD for a transaction, you should pass the value for the amount parameter as 99990
+and not 99991
+.
+currency
+mandatory
+string
+The currency in which the payment should be made by the customer. See the list of
+Handy Tips
+Razorpay has added support for zero decimal currencies, such as JPY, and three decimal currencies, such as KWD, BHD, and OMR, allowing businesses to accept international payments in these currencies. Know more about
+(May 2024).name
+mandatory
+string
+Your Business/Enterprise name shown on the Checkout form. For example, Acme Corp.
+description
+optional
+string
+Description of the purchase item shown on the Checkout form. It should start with an alphanumeric character.
+image
+optional
+string
+Link to an image (usually your business logo) shown on the Checkout form. Can also be a base64 string if you are not loading the image from a network.
+order_id
+mandatory
+string
+Order ID generated via
+prefill
+object
+You can prefill the following details at Checkout.
+Boost Conversions and Minimise Drop-offs
+- Autofill customer contact details, especially phone number to ease form completion. Include customer’s phone number in the
+contact
+parameter of the JSON request'sprefill
+object. Format: +(country code)(phone number). Example: "contact": "+919000090000". - This is not applicable if you do not collect customer contact details on your website before checkout, have Shopify stores or use any of the no-code apps.
+name
+optional
+string
+Cardholder's name to be prefilled if customer is to make card payments on Checkout. For example, Gaurav Kumar.
+optional
+string
+Email address of the customer.
+contact
+optional
+string
+Phone number of the customer. The expected format of the phone number is + {country code}{phone number}
+. If the country code is not specified, 91
+will be used as the default value. This is particularly important while prefilling contact
+of customers with phone numbers issued outside India. Examples:
+- +14155552671 (a valid non-Indian number)
+- +919977665544 (a valid Indian number).
+If 9977665544 is entered,+91
+is added to it as +919977665544.
+method
+optional
+string
+Pre-selection of the payment method for the customer. Will only work if contact
+and email
+are also prefilled. Possible values:
+card
+netbanking
+wallet
+upi
+emi
+notes
+optional
+object
+Set of key-value pairs that can be used to store additional information about the payment. It can hold a maximum of 15 key-value pairs, each 256 characters long (maximum).
+theme
+object
+Thematic options to modify the appearance of Checkout.
+color
+optional
+string
+Enter your brand colour's HEX code to alter the text, payment method icons and CTA (call-to-action) button colour of the Checkout form.
+backdrop_color
+optional
+string
+Enter a HEX code to change the Checkout's backdrop colour.
+modal
+object
+Options to handle the Checkout modal.
+backdropclose
+optional
+boolean
+Indicates whether clicking the translucent blank space outside the Checkout form should close the form. Possible values:
+true
+: Closes the form when your customer clicks outside the checkout form.false
+(default): Does not close the form when customer clicks outside the checkout form.
+escape
+optional
+boolean
+Indicates whether pressing the escape key should close the Checkout form. Possible values:
+true
+(default): Closes the form when the customer presses the escape key.false
+: Does not close the form when the customer presses the escape key.
+handleback
+optional
+boolean
+Determines whether Checkout must behave similar to the browser when back button is pressed. Possible values:
+true
+(default): Checkout behaves similarly to the browser. That is, when the browser's back button is pressed, the Checkout also simulates a back press. This happens as long as the Checkout modal is open.false
+: Checkout does not simulate a back press when browser's back button is pressed.
+confirm_close
+optional
+boolean
+Determines whether a confirmation dialog box should be shown if customers attempts to close Checkout. Possible values:
+true
+: Confirmation dialog box is shown.false
+(default): Confirmation dialog box is not shown.
+ondismiss
+optional
+function
+Used to track the status of Checkout. You can pass a modal object with ondismiss: function()\{\}
+as options. This function is called when the modal is closed by the user. If retry
+is false
+, the ondismiss
+function is triggered when checkout closes, even after a failure.
+animation
+optional
+boolean
+Shows an animation before loading of Checkout. Possible values:
+true
+(default): Animation appears.false
+: Animation does not appear.
+subscription_id
+optional
+string
+If you are accepting recurring payments using Razorpay Checkout, you should pass the relevant subscription_id
+to the Checkout. Know more about
+subscription_card_change
+optional
+boolean
+Permit or restrict customer from changing the card linked to the subscription. You can also do this from the
+true
+: Allow the customer to change the card from Checkout.false
+(default): Do not allow the customer to change the card from Checkout.
+recurring
+optional
+boolean
+Determines if you are accepting
+true
+: You are accepting recurring payments.false
+(default): You are not accepting recurring payments.
+callback_url
+optional
+string
+Customers will be redirected to this URL on successful payment. Ensure that the domain of the Callback URL is allowlisted.
+redirect
+optional
+boolean
+Determines whether to post a response to the event handler post payment completion or redirect to Callback URL. callback_url
+must be passed while using this parameter. Possible values:
+true
+: Customer is redirected to the specified callback URL in case of payment failure.false
+(default): Customer is shown the Checkout popup to retry the payment with the suggested next best option.
+customer_id
+optional
+string
+Unique identifier of customer. Used for:
+- .
+- Static bank account details on Checkout in case of .
+remember_customer
+optional
+boolean
+Determines whether to allow saving of cards. Can also be configured via the
+true
+: Enables card saving feature.false
+(default): Disables card saving feature.
+timeout
+optional
+integer
+Sets a timeout on Checkout, in seconds. After the specified time limit, the customer will not be able to use Checkout.
+Watch Out!
+Some browsers may pause JavaScript
+timers when the user switches tabs, especially in power saver mode. This can cause the checkout session to stay active beyond the set timeout duration.
+readonly
+object
+Marks fields as read-only.
+contact
+optional
+boolean
+Used to set the contact
+field as readonly. Possible values:
+true
+: Customer will not be able to edit this field.false
+(default): Customer will be able to edit this field.
+optional
+boolean
+Used to set the email
+field as readonly. Possible values:
+true
+: Customer will not be able to edit this field.false
+(default): Customer will be able to edit this field.
+name
+optional
+boolean
+Used to set the name
+field as readonly. Possible values:
+true
+: Customer will not be able to edit this field.false
+(default): Customer will be able to edit this field.
+hidden
+object
+Hides the contact details.
+contact
+optional
+boolean
+Used to set the contact
+field as optional. Possible values:
+true
+: Customer will not be able to view this field.false
+(default): Customer will be able to view this field.
+optional
+boolean
+Used to set the email
+field as optional. Possible values:
+true
+: Customer will not be able to view this field.false
+(default): Customer will be able to view this field.
+send_sms_hash
+optional
+boolean
+Used to auto-read OTP for cards and netbanking pages. Applicable from Android SDK version 1.5.9 and above. Possible values:
+true
+: OTP is auto-read.false
+(default): OTP is not auto-read.
+allow_rotation
+optional
+boolean
+Used to rotate payment page as per screen orientation. Applicable from Android SDK version 1.6.4 and above. Possible values:
+true
+: Payment page can be rotated.false
+(default): Payment page cannot be rotated.
+retry
+optional
+object
+Parameters that enable retry of payment on the checkout.
+enabled
+boolean
+Determines whether the customers can retry payments on the checkout. Possible values:
+true
+(default): Enables customers to retry payments.false
+: Disables customers from retrying the payment.
+max_count
+integer
+The number of times the customer can retry the payment. We recommend you to set this to 4. Having a larger number here can cause loops to occur.
+Watch Out!
+Web Integration does not support the max_count
+parameter. It is applicable only in Android and iOS SDKs.
+config
+optional
+object
+Parameters that enable checkout configuration. Know more about how to
+display
+object
+Child parameter that enables configuration of checkout display language.
+language
+string
+The language in which checkout should be displayed. Possible values:
+en
+: Englishben
+: Bengalihi
+: Hindimar
+: Marathiguj
+: Gujaratitam
+: Tamiltel
+: Telugu
+Handy Tips
+The open method of Razorpay object (rzp1.open()
+) must be invoked by your site's JavaScript, which may or may not be a user-driven action such as a click.
+Given below is a list of errors you may face while integrating with checkout on the client-side.
+Multiple payment methods are available on the Razorpay Web Standard Checkout.
+- The payment methods are fixed and cannot be changed.
+- You can configure the order or make certain payment methods prominent. Know more about .
+The way the Payment Success and Failure scenarios are handled depends on the
+you used in the last step.If you used the sample code with the handler function:
+The customer sees your website page. The checkout returns the response object of the successful payment (razorpay_payment_id, razorpay_order_id and razorpay_signature). Collect these and send them to your server.
+If you used the sample code with the callback URL:
+Razorpay makes a POST call to the callback URL with the razorpay_payment_id, razorpay_order_id and razorpay_signature in the response object of the successful payment. Only successful authorisations are auto-submitted.
+A successful payment returns the following fields to the Checkout form.
+- You need to store these fields in your server.
+- You can confirm the authenticity of these details by verifying the signature in the next step.
+razorpay_payment_id
+string
+Unique identifier for the payment returned by Checkout only for successful payments.
+razorpay_order_id
+string
+Unique identifier for the order returned by Checkout.
+razorpay_signature
+string
+Signature returned by the Checkout. This is used to verify the payment.
+This is a mandatory step to confirm the authenticity of the details returned to the Checkout form for successful payments.
+-
+Create a signature in your server using the following attributes:
+order_id
+: Retrieve theorder_id
+from your server. Do not use therazorpay_order_id
+returned by Checkout.razorpay_payment_id
+: Returned by Checkout.key_secret
+: Available in your server. Thekey_secret
+that was generated from the .
+-
+Use the SHA256 algorithm, the
+razorpay_payment_id
+and theorder_id
+to construct a HMAC hex digest as shown below:generated_signature = hmac_sha256(order_id + "|" + razorpay_payment_id, secret);if (generated_signature == razorpay_signature) {payment is successful} -
+If the signature you generate on your server matches the
+razorpay_signature
+returned to you by the Checkout form, the payment received is from an authentic source.
+Given below is the sample code for payment signature verification:
+RazorpayClient razorpay = new RazorpayClient("[YOUR_KEY_ID]", "[YOUR_KEY_SECRET]");String secret = "EnLs21M47BllR3X8PSFtjtbd";JSONObject options = new JSONObject();options.put("razorpay_order_id", "order_IEIaMR65cu6nz3");options.put("razorpay_payment_id", "pay_IH4NVgf4Dreq1l");options.put("razorpay_signature", "0d4e745a1838664ad6c9c9902212a32d627d68e917290b0ad5f08ff4561bc50f");boolean status = Utils.verifyPaymentSignature(options, secret);
+After you have completed the integration, you can
+, make test payments, replace the test key with the live key and integrate with other .Watch Out: Always verify the payment signature server-side
+After a payment completes, Razorpay sends razorpay_payment_id
+, razorpay_order_id
+and razorpay_signature
+to your handler. You must verify the signature on your server before fulfilling the order.
+A failed signature check indicates a potentially fraudulent or tampered payment. Reject the order entirely — do not fulfil it, do not retry and do not treat it as a genuine payment. Skipping this step is the most common cause of fraudulent orders and payment disputes.
+Here are the links to our
+for the supported platforms.Handy Tips
+On the Razorpay Dashboard, ensure that the payment status is captured
+. Refer to the payment capture settings page to know how to
+To verify the payment status from the Razorpay Dashboard:
+- Log in to the Razorpay Dashboard and navigate to Transactions → Payments.
+- Check if a Payment Id has been generated and note the status. In case of a successful payment, the status is marked as Captured.
+After the integration is complete, a Pay button appears on your webpage/app.
+Click the button and make a test transaction to ensure the integration is working as expected. You can start accepting actual payments from your customers once the test transaction is successful.
+Watch Out!
+This is a mock payment page that uses your test API keys, test card and payment details.
+- Ensure you have entered only your in the Checkout code.
+- Test mode features a mock bank page with Success and Failure buttons to replicate the live payment experience.
+- No real money is deducted due to the usage of test API keys. This is a simulated transaction.
+Following are all the payment modes that the customer can use to complete the payment on the Checkout. Some of them are available by default, while others may require approval from us. Raise a request from the Dashboard to enable such payment methods.
+You can make test payments using one of the payment methods configured at the Checkout.
+You can select any of the listed banks. After choosing a bank, Razorpay will redirect to a mock page where you can make the payment success
+or a failure
+. Since this is Test Mode, we will not redirect you to the bank login portals.
+Check the list of
+.You can enter one of the following UPI IDs:
+success@razorpay
+: To make the payment successful.failure@razorpay
+: To fail the payment.
+Check the list of
+.Handy Tips
+You can use Test Mode to test UPI payments, and Live Mode for UPI Intent and QR payments.
+You can use the following test cards to test transactions for your integration in Test Mode.
+Use the following test cards for Indian payments:
+Use these test cards to simulate payment errors. See the
+of error test cards with detailed scenarios. Check the following lists:- .
+- .
+Use the following test cards to test international payments. Use any valid expiration date in the future in the MM/YY format and any random CVV to create a successful payment.
+Check the list of
+.You can select any of the listed wallets. After choosing a wallet, Razorpay will redirect to a mock page where you can make the payment success
+or a failure
+. Since this is Test Mode, we will not redirect you to the wallet login portals.
+Check the list of
+.Check the go-live checklist for Razorpay Web Standard Checkout integration. Consider these steps before taking the integration live.
+Perform an end-to-end simulation of funds flow in the Test Mode. Once confident that the integration is working as expected, switch to the Live Mode and start accepting payments from customers.
+Watch Out!
+Ensure you are switching your test API keys with API keys generated in Live Mode.
+To generate API Keys in Live Mode on your Razorpay Dashboard:
+- Log in to the Razorpay Dashboard and switch to Live Mode on the menu.
+- Navigate to Account & Settings → API Keys → Generate Key to generate the API Key for Live Mode.
+- Download the keys and save them securely.
+- Replace the Test API Key with the Live Key in the Checkout code and start accepting actual payments.
+Watch Out: Swap your API keys before going live
+Your Test Mode API keys only process simulated transactions — no real money moves. If you go live without replacing them with Live Mode keys, customers will see a payment success screen but no payment will be captured or settled.
+Generate your Live Mode keys from Dashboard → Account & Settings → API Keys → Generate Key (switch to Live Mode first).
+After payment is authorized
+, you need to capture it to settle the amount to your bank account as per the settlement schedule. Payments that are not captured are auto-refunded after a fixed time.
+Watch Out
+- You should deliver the products or services to your customers only after the payment is captured. Razorpay automatically refunds all the uncaptured payments.
+- You can track the payment status using our or webhooks.
+Authorized payments can be automatically captured. You can auto-capture all payments
+on the Razorpay Dashboard. Know more about .Watch Out!
+Payment capture settings work only if you have integrated with Orders API on your server side. Know more about the
+.Watch Out: Authorised payments must be captured to settle
+A payment in authorized
+state has been approved by the bank but not yet settled to your account. You must capture it — either manually from the Dashboard or automatically via capture settings.
+Uncaptured payments are auto-refunded after a fixed period. If customers are paying but you are not seeing settlements, check your capture settings in Dashboard → Account & Settings → Payment Capture.
+Ensure you have
+in the live mode and configured the events for which you want to receive notifications.Implementation Considerations
+Webhooks are the primary and most efficient method for event notifications. They are delivered asynchronously in near real-time. For critical user-facing flows that need instant confirmation (like showing "Payment Successful" immediately), supplement webhooks with API verification.
+Recommended approach
+- Rely on webhooks for all automation, which can be asynchronous.
+- If a critical user-facing flow requires instant status, but the webhook notification has not arrived within the time mandated by your business needs, perform an immediate API Fetch call (, and ) to verify the status.
+Is this integration guide useful?

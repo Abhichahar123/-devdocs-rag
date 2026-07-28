@@ -1,0 +1,63 @@
+Settlements - Dashboard Actions
+View settlement details, check the settlements break-up, enable settlements on hold and view reports from the Razorpay Dashboard.
+You can view details of settlements made to you from the Dashboard.
+- View a detailed break-down of the amount settled to you from the Dashboard.
+- View details, such as the total settlement amount (credit + debit amount), applicable service fees, service tax, adjustments, and so on.
+Watch this video to see how to view settlements from the Dashboard.
+To view settlement details:
+- Log in to the Dashboard.
+- Navigate to Settlements.
+- Click on the details of the settlement ID that you wish to refer to.
+If you are an omni-channel business (Online (Domestic transactions + International Cards)) or cross-border business (Alternate Payment Method (International)), your settlements are processed separately for each channel type. This provides complete fund isolation and eliminates cross-channel settlement failures.
+With balance segregation, settlements are organised by channel type:
+Each channel type has its own settlement schedule and settlement history.
+To view channel-wise settlements:
+-
+Log in to the Dashboard.
+-
+Navigate to Settlements.
+-
+Use the Balance Type filter to select the channel you want to view:
+- Online (Domestic transactions + International Cards)
+- In-Person
+- Alternate Payment Method (International)
+The settlements list will display only settlements for the selected channel.
+On the Dashboard home page, you will see separate settlement cards for each active balance:
+- Each card shows the current balance, last settlement amount and next settlement date.
+- Click on any card to view detailed settlement history for that channel.
+Handy Tips
+With segregated balances, you can now enable Instant Settlements for your PG Online balance even if you have POS or Cross-Border enabled. Previously, Instant setting were restricted for cross-border and omni-channel businesses.
+You can view settlement details using the
+.The following screenshot displays the settlement break-up:
+A settlement has the following components:
+Payment
+The total payment amount that is being settled before deductions.
+Adjustment
+Adjustments to transactions, if any.
+Tax
+Tax deducted on the payment.
+Fee
+Fees deducted by Razorpay for the transactions.
+Transfer
+Transfers made if any, Transfers are payouts made to your
+.Linked accounts are accounts created for third-party sellers by you after onboarding them onto the Razorpay platform.
+Refunds
+Refunds made if any, are refunds you have issued to your customer.
+You can view the settlement timeline to check when the settlement for a particular payment will be credited.
+To view the settlement timeline:
+- Log in to the Dashboard.
+- Navigate to Settlements.
+- Click on the details of the settlement id for which you want to view the timeline.
+- You will be able to see the settlement timeline for that particular settlement id.
+Your settlement can be placed on hold if we detect some risk with your payments or with your Razorpay account. You are notified about this on your Dashboard.
+Contact the
+to enable settlements that are placed on hold.To enable settlements when they are put on hold:
+- Log in to the Dashboard.
+- Navigate to Home.
+- Click Resolve on the notification as shown above..
+Detailed insights can be gained using reports and real-time data on the Dashboard. These reports can then be used for accounting and reconciliation purposes. Know more about
+For businesses with segregated balances, settlement reports include:
+- Channel Type: Identifies whether the transaction was from Online (Domestic transactions + International Cards), In-person and Alternate Payment Method (International).
+- Balance Account id: Unique identifier for the specific balance account.
+You can filter reports by channel type to reconcile settlements for each balance separately.
+Was this page helpful?

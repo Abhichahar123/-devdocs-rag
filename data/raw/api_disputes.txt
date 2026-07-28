@@ -1,0 +1,6 @@
+API Test Keys
+Disputes APIs
+A
+arises when your customer or the issuing bank questions the validity of a payment. You can manage disputes using APIs or from the to ensure a seamless dispute management experience.Fork the Razorpay Postman Public Workspace and try the Disputes APIs using your
+.Endpoints
+06

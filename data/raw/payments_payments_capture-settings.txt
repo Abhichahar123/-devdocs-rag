@@ -1,0 +1,80 @@
+Payment Capture Settings
+Configure auto and manual payment capture settings from Razorpay Dashboard and using APIs.
+When a customer makes an online payment, it usually flows through different states. Know more about
+.By default, once your customer completes a payment, it is automatically moved to the captured
+state.
+However, the payment can remain in the authorized
+state in the following scenarios:
+- Late authorization
+Due to external factors such as network issues or technical errors, Razorpay may not immediately receive payment status from the bank. In this case, Razorpay polls the APIs intermittently for 3 days to check the status. If we receive the payment status as successful, the payment is moved to theauthorized
+state. Know more about . - Specific business use case
+Some businesses such as those in the Ecommerce industry, may retain the payment in theauthorized
+state and later move them to thecaptured
+state.
+Watch Out!
+- For Direct Settlement merchants, payments will be auto-captured irrespective of the configuration.
+- You must ensure that all payments in the authorized state are moved to the captured state within 3 days of creation. This is mandatory because payments that are not captured within this period will be refunded automatically to customers.
+You can configure Payment Capture settings on the Dashboard. You can choose to:
+Handy Tips
+- Only the Razorpay account owner can configure payment capture settings on the Dashboard.
+- Payment Capture settings are applicable only for payments created using the Orders API.
+You can use this setting to capture all authorized
+payments automatically. This eliminates the time and effort spent manually capturing payments. This is the default setting for all customers.
+Watch this video to know how to set up the Automatic Capture option.
+- Log in to the Dashboard.
+- Navigate to the Account & Settings option and scroll to the Payments Capture option.
+- Click the Change button next to Automatic Capture.
+- Under Automatic Capture, click the drop-down and select the time period in the Capture all payments authorised within field. For example, 3 days.
+- Click Next.
+- Select Refund Automatically and click Next.
+- Select Normal Refund as the Refund Speed.
+- Click Save.
+Once the payment is created
+, you can:
+- Auto-capture payments that are
+authorized
+within a certain time period, and - Manually capture payments that are
+authorized
+after that time period.
+You can do this by setting up custom timeouts for automatic and manual capture.
+Let us say you only want to auto-capture payments that are authorized
+within 3 days from creation.
+Watch this video to see how to set up the Automatic Capture with Timeout option.
+Let us say you want to:
+- Auto-capture payments that are
+authorized
+within 2 days from creation. - Manually capture payments that are
+authorized
+within 3 days from creation.
+Watch this video to see how to set up the Automatic and Manual Capture with Timeout option.
+- Log in to your Dashboard.
+- Navigate to the Account & Settings option and scroll to the Payments Capture option.
+- Click the Change button next to Automatic Capture.
+- Under Automatic Capture, click the drop-down and select the time period in the Capture all payments authorised within field. For example, 2 days.
+- Click Next.
+- Select Capture manually via dashboard or API.
+- Click the drop-down and select the time period in the Capture payments manually authorised within field. For example, 3 days.
+- Click Next.
+- Select Normal Refund as the Refund Speed.
+- Click Save.
+You can use this setting to capture authorized
+payments manually.
+Watch Out!
+Manual capture of payments is not supported on
+. All bank transfer payments are auto-captured.Let us say you only want to manually capture payments that are authorized
+within 3 days from creation. To do this, you should set the manual capture timeout as 3 days.
+Watch this video to set up the Manual Capture option.
+- Log in to the Dashboard.
+- Navigate to the Account & Settings option and scroll to the Payments Capture option.
+- Click the Change button next to Automatic Capture.
+- Select the Manual Capture option.
+- Set the manual capture timeout to 3 days and click Next.
+- Select Normal Refund as the Refund Speed.
+- Click Save.
+You can manually capture payments in the authorized
+state using our
+Capture values passed in the
+take precedence over the Payment Capture settings configured on the Dashboard. You can use this to change the capture settings for individual payments.- Manually capture payments in the
+authorized
+state using the or from the
+Was this page helpful?

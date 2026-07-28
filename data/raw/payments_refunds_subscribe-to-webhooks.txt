@@ -1,0 +1,14 @@
+Subscribe to Webhooks
+Subscribe to various webhook events related to Refunds to receive instant notifications.
+Get notified by subscribing to webhook events available for refunds.
+To subscribe to webhook events:
+- Log in to the Dashboard.
+- Navigate to Account & Settings → Webhooks to subscribe to any of the events listed below.
+The table below lists the webhook events available for refunds.
+Know more about
+and check theWas this page helpful?
+refunds
+subscribe to webhooks
+refund webhook events
+refund notifications
+ON THIS PAGE

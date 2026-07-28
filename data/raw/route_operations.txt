@@ -1,0 +1,34 @@
+About Route
+Use Razorpay Route to split payments between third parties and manage settlements, refunds and reconciliation by creating Linked Accounts.
+Razorpay Route simplifies complex payment flows by enabling you to easily split incoming funds among multiple third-parties, sellers or bank accounts. This solution is ideally suited for businesses, such as marketplaces or platforms, that operate on a one-to-many
+disbursement model.
+- Add and manage Linked Accounts.
+- Split payments and transfer funds to multiple Linked Accounts.
+- Reverse transferred funds and manage customer refunds with automated reversals.
+- Manage Linked Account settlements.
+- Move from manual and file-based reconciliation to an entirely API-driven process.
+- Instant Transfers: Instant transfers, ensuring recipients receive payments promptly. Beneficial for businesses and individuals who rely on timely disbursements.
+- Multiple Payment Transfers: Splits payments into various portions for seamless transfer to multiple parties, ideal for marketplaces where sellers, service providers and platform owners receive their respective shares.
+- Easy Integration: Seamlessly integrates into existing payment systems via APIs, enhancing payment capabilities without major system changes.
+- Transparent Reporting and Settlements: Comprehensive reporting and analytics for tracking transactions, transfers and settlements.
+You should add Linked Accounts using the
+or before using Route.As per RBI Payment Aggregator guidelines issued in September 2025, businesses must meet the following criteria to access or continue using Route.
+Your business must meet at least one of the following thresholds in either the current (FY26) or preceding (FY25) financial year:
+The third party listed as your linked account must directly interface with your customers to provide goods or services. To meet this requirement, submit a written confirmation describing your Route use case. Razorpay will review the submission and, once approved, it will be treated as a valid declaration of Payer-Payee Transparency for your account.
+Watch Out!
+The deadline to submit compliance information was December 31, 2025. If you were using Route before this date and did not submit the required proofs, your Route access has been disabled. Please reach out to
+for getting Route re-enabled.For answers to common questions about these requirements, refer to the
+.Given below is the funds flow in Route:
+- A customer makes a purchase on your site.
+- You can choose to:
+- Initiate transfer of funds to Linked Accounts.
+- Defer the transfer settlement.
+- Define a custom delay period for settlement.
+- Razorpay settles funds to the Linked Account and sends a webhook notification to you.
+To get started with Route:
+- Log in to the Dashboard and click Route under PAYMENT PRODUCTS.
+- After log in, you should add linked accounts to start using Route. Refer to the page for more information.
+- Once Linked Accounts are added, you can then start creating transfers to those accounts. Refer to the page for more information.
+Explore the
+to gain insights into the practical applications of Route.Route is supported on the following platforms:
+Was this page helpful?

@@ -1,0 +1,27 @@
+About Disputes
+Create Disputes and Chargebacks from the Razorpay Dashboard. Check the notifications and how disputes are handled for international payments.
+A dispute is a situation where a customer or the issuing bank questions the validity of payments. It may arise due to unauthorised charges, failure to deliver the promised merchandise or excessive charges levied by the business.
+A dispute can be in any of the following phases:
+Handy Tips
+The pre-arbitration and arbitration dispute phases are usually long-drawn, complicated, and challenging. It is advised to take remedial action during the retrievals and chargeback phases to avoid complications.
+A dispute can have any of the following statuses (in the Razorpay system).
+Following is the process flow for disputes:
+-
+A dispute can be initiated in any of the following ways:
+- Initiated by the issuing bank: The issuing bank suspects a fraudulent transaction and asks for your justification.
+- Initiated by the customer: The customer claims that the transaction was unauthorised and raises it with the issuing bank.
+-
+You will be
+- Accept the dispute. The customer is refunded. In the case of fraud, you must refund the amount. In other cases, Razorpay will auto-refund the amount.
+- to prove that the transaction was fair.
+- If you contest, the documents are sent to the customer’s bank. The bank reviews the case and provides a verdict.
+- If you lose the dispute, the amount would be deducted from your account and is sent to the customer.
+Notifications are sent when disputes are created. These notifications are in the form of:
+- Emails
+You will receive an email notification when a dispute is created. The email contains details of the transaction, amount and cause of dispute. - Webhooks
+You can to receive alerts whenever a dispute is created or there is a change in status.
+Disputes in International Payments
+For a dispute raised for international payment, the amount deducted from your account will be based on the day's currency conversion rate when the dispute was created. The currency conversion rate is dependent on the rate charged by processing banks. This conversion rate may vary from that on the day when the payment was created.
+You can perform the following actions using the Dashboard:
+- for additional help with disputes.
+Was this page helpful?

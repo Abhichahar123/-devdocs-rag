@@ -1,0 +1,12 @@
+# Virtual environment - too large, machine-specific, don't upload
+venv/
+
+# API keys - never upload secrets
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# OS junk files
+.DS_Store

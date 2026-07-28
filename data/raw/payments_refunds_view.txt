@@ -1,0 +1,19 @@
+View Refunds
+View details of Refunds and Settlements using the Razorpay Dashboard and APIs.
+After issuing a refund for a payment, you can check its status in the Refunds tab. You can also view details of settled refunds.
+Watch this video to see how you can view the details of a refund.
+To view a refund:
+- Log in to the Dashboard.
+- Click Transactions on the left navigation and View All on the Refunds tab.
+- Click a Refund Id to view details of the refund.
+Watch this video to see how you can view settlement details of a refund.
+To view a detailed break-down of a settlement made to your account:
+- Log in to the Dashboard.
+- Navigate to Transactions → Refunds.
+- Click the Refund Id for which you want to view the settlement details.
+- In the Refund Details view, you can see the settlement details.
+- Click on the settlement_id to view a detailed breakdown.
+Was this page helpful?
+refunds
+view refunds
+check refund status

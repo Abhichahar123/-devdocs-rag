@@ -1,0 +1,9 @@
+Payments APIs
+List of available Payments and Downtime APIs for various actions such as Capture, Fetch and Update.
+You can use the Payments APIs to perform various actions. You can perform a few of these actions from the Dashboard as well.
+The table below lists the various Payments APIs and gives a brief description of each API:
+Was this page helpful?
+razorpay payments api
+downtime api
+payments apis
+ON THIS PAGE

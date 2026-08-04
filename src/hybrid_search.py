@@ -1,6 +1,7 @@
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
+from query_expansion import expand_query
 
 COLLECTION_NAME = "razorpay_docs"
 
@@ -91,6 +92,41 @@ def hybrid_search(query, all_points, top_k=10):
     return results
 
 
+def multi_query_hybrid_search(original_question, all_points, top_k=10):
+    """
+    Expands the original question into multiple phrasings, runs hybrid
+    search for each, and combines all results together using RRF.
+    """
+    variations = expand_query(original_question, num_variations=3)
+    all_questions = [original_question] + variations
+
+    all_ranked_lists = []
+    for question in all_questions:
+        vector_ids = vector_search(question, top_k=20)
+        bm25_ids = bm25_search(question, all_points, top_k=20)
+        all_ranked_lists.append(vector_ids)
+        all_ranked_lists.append(bm25_ids)
+
+    rrf_scores = {}
+    k = 60
+    for ranked_list in all_ranked_lists:
+        for rank, point_id in enumerate(ranked_list):
+            rrf_scores[point_id] = rrf_scores.get(point_id, 0) + 1 / (k + rank + 1)
+
+    sorted_ids = sorted(rrf_scores.keys(), key=lambda pid: rrf_scores[pid], reverse=True)
+    top_ids = sorted_ids[:top_k]
+
+    id_to_point = {point.id: point for point in all_points}
+    results = []
+    for point_id in top_ids:
+        point = id_to_point[point_id]
+        results.append({
+            "text": point.payload["text"],
+            "source": point.payload["source"],
+        })
+    return results
+
+
 def rerank(query, candidates, top_k=5):
     """
     Re-scores hybrid search candidates by reading the query and each
@@ -106,23 +142,26 @@ def rerank(query, candidates, top_k=5):
     return reranked[:top_k]
 
 
-# --- Test it out (single clean test block) ---
+# --- Test it out ---
 if __name__ == "__main__":
     print("Loading all chunks from Qdrant...")
     all_points = load_all_chunks()
     print(f"Loaded {len(all_points)} chunks.\n")
 
-    test_query = "How do I capture an authorized payment?"
+    test_query = "What happens if I don't collect the money from a customer in time?"
     print(f"Query: {test_query}\n")
 
-    candidates = hybrid_search(test_query, all_points, top_k=10)
-
-    print("=== Before reranking (hybrid search order) ===")
-    for i, c in enumerate(candidates, 1):
+    print("=== WITHOUT query expansion (original hybrid search) ===")
+    candidates_before = hybrid_search(test_query, all_points, top_k=10)
+    for i, c in enumerate(candidates_before, 1):
         print(f"{i}. [{c['source']}] {c['text'][:100]}...")
 
-    final_results = rerank(test_query, candidates, top_k=5)
+    print("\n=== WITH query expansion ===")
+    candidates_after = multi_query_hybrid_search(test_query, all_points, top_k=10)
+    for i, c in enumerate(candidates_after, 1):
+        print(f"{i}. [{c['source']}] {c['text'][:100]}...")
 
-    print("\n=== After reranking (final order) ===")
+    final_results = rerank(test_query, candidates_after, top_k=5)
+    print("\n=== After reranking (final answer-ready chunks) ===")
     for i, r in enumerate(final_results, 1):
         print(f"{i}. [score: {r['rerank_score']:.2f}] [{r['source']}] {r['text'][:100]}...")

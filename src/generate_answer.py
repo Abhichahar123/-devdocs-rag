@@ -64,7 +64,7 @@ if __name__ == "__main__":
     all_points = load_all_chunks()
     print(f"Loaded {len(all_points)} chunks.\n")
 
-    test_question = "How do I capture an authorized payment?"
+    test_question = "capital of india?"
     print(f"Question: {test_question}\n")
 
     # Step 1: Retrieve (hybrid search + rerank, from Day 3/4)

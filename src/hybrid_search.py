@@ -1,4 +1,7 @@
 from qdrant_client import QdrantClient
+import os
+from dotenv import load_dotenv
+load_dotenv()
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from rank_bm25 import BM25Okapi
 from query_expansion import expand_query
@@ -6,7 +9,10 @@ from query_expansion import expand_query
 COLLECTION_NAME = "razorpay_docs"
 
 # --- Setup: connect to Qdrant and load models ---
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(
+    url=os.getenv("QDRANT_CLOUD_URL"),
+    api_key=os.getenv("QDRANT_CLOUD_API_KEY"),
+)
 model = SentenceTransformer("all-MiniLM-L6-v2")
 reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
